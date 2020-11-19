@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>产品价格查询</title>
+    {% load staticfiles %}
+    <link rel="shortcut icon" href="{% static 'imgs/favicon.ico' %}" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'imgs/bj.jpg' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="login">
+            <div class="biaoti">产品价格查询</div>
+            <form class="post" action="/loginpage/" method="post">
+                {% csrf_token %}
+                <span class="username"><i class="fa fa-user fa-border"></i></span>
+                <div>
+                    <input type="text" name="username" placeholder=" username">
+                </div>
+                <div class="line"></div>
+                <span class="password"><i class="fa fa-lock fa-border"></i></span>
+                <div>
+                    <input type="password" name="password" placeholder=" password">
+                </div>
+                <div class="line"></div>
+                <input id="button" type="submit" value="Login">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

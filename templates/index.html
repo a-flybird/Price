@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>产品价格查询</title>
+    {% load staticfiles %}
+    <link rel="shortcut icon" href="{% static 'imgs/favicon.ico' %}" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'imgs/bj.png' %}">
+</head>
+<body>
+<div class="box">
+    <div id="login">
+        <form class="form" action="/loginpage/" method="post">
+        {% csrf_token %}
+        {% if user.is_authenticated %}
+            <p>{{ user.username }}&nbsp
+                <button class="btn">
+                    <a href="/loginpage/">注 销</a>
+                </button>
+            </p>
+        </form>
+        {% endif %}
+    </div>
+
+    <div class="search">
+        <form class="input"  method="get">
+            <input class="input_text" type="text" name="start" placeholder=" 请输入产品编码（最多10条）"/>
+            <input class="button" type="submit" value="搜 索" >
+        </form>
+        <form class="upload"  method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div id="upload_buttton">
+                <input id="upload_name" placeholder="选择文件（批量查询）">
+                <input id="uploadfile" type="file" name="file_name"/>
+            </div>
+            <input class="button_up" type="submit" value="上 传"/>
+            <button class="button_down" value="下载模板">
+                <a href="{% url 'index:download' %}" >下载模板</a>
+            </button>
+        </form>
+    </div>
+    {% if response is 1 %}
+        <script type="text/javascript">alert("输入编码太多！")</script>
+    {% elif response is 2 %}
+        <script type="text/javascript">alert("编码不存在！")</script>
+    {% elif response is 3 %}
+        <script type="text/javascript">alert("请选择文件！")</script>
+    {% endif %}
+    <div class="search_res">
+        <h1>搜索结果</h1>
+        <table class="results">
+          <thead>
+          <th>产品编码</th>
+          <th>名称</th>
+          <th>型号</th>
+          <th>产品描述</th>
+          <th class="th">RRP(USD)</th>
+          <th class="th">RRP(EUR)</th>
+          <th class="th">RRP(GBP)</th>
+          <th class="th">RRP(RMB)</th>
+          </thead>
+            <tbody>
+            {% for row in results %}
+                <tr>
+                    <td>{{ row.1 }}</td>
+                    <td>{{ row.2 }}</td>
+                    <td>{{ row.8 }}</td>
+                    <td>{{ row.3 }}</td>
+                    <td>&#36;{{ row.7 }}</td>
+                    <td>&euro;{{ row.4 }}</td>
+                    <td>&#163;{{ row.5 }}</td>
+                    <td>&#165;{{ row.6 }}</td>
+            <tr>
+            {% endfor %}
+            </tr>
+             </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    document.getElementById("uploadfile").onchange = function () {
+        var ms=document.getElementById("upload_name");
+        ms.value = this.value;
+        ms.onmouseover=function(){
+            ms.css("color","white");
+        };
+};
+</script>
+</body>
+</html>
